@@ -1,0 +1,75 @@
+---
+title: "Project Exercise"
+author: "Zhe Ren"
+date: '2022-05-16'
+output: html_document
+---
+
+# Getting and Cleaning Data
+
+### Load library
+
+``` {r exercise, message = F, warning = F}
+
+library(caret)
+library(rpart)
+library(rpart.plot)
+library(RColorBrewer)
+library(rattle)
+library(randomForest)
+library(knitr)
+
+```
+
+### Getting Data
+```{r echo=TRUE}
+training_data <- read.csv("pml-training.csv")
+testing_data <- read.csv("pml-testing.csv")
+inTrain <- createDataPartition(training_data$classe, p=0.6, list=FALSE)
+myTraining <- training_data[inTrain, ]
+myTesting <- training_data[-inTrain, ]
+```
+
+### Cleaning Data
+```{r echo=TRUE}
+# remove variables with nearly zero variance
+nzv <- nearZeroVar(myTraining)
+myTraining <- myTraining[, -nzv]
+myTesting <- myTesting[, -nzv]
+# remove variables that are almostly NA
+mostlyNA <- sapply(myTraining, function(x) mean(is.na(x))) > 0.95
+myTrainig <- myTraining[, mostlyNA==F]
+myTesting <- myTesting[, mostlyNA==F]
+# remove identification only variables (columns 1 to 5)
+myTraining <- myTrainig[, -(1:5)]
+myTesting  <- myTesting[, -(1:5)]
+```
+
+# Predict Data by various models
+### Random forest
+```{r echo=TRUE}
+modFit <- randomForest(as.factor(myTraining$classe) ~ .,data=myTraining)
+modFit
+# Prediction using Random forest
+predict <- predict(modFit, myTesting, type="class")
+confusionMatrix(as.factor(myTesting$classe), predict)
+```
+
+# Error and Cross validation
+#### Random forest gives us 99.8 % as accuracy.
+#### The expected sample errors for Random forest is 0.37%.
+
+# Final test
+#### Run the algorithm to the 20 test cases in the test data using most accurate model Random forest.
+```{r echo=TRUE}
+predict_test <- predict(modFit, testing_data, type = "class")
+predict_test
+```
+
+
+
+
+
+
+
+
