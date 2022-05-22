@@ -13,18 +13,12 @@ The source code is available at [GitHub](https://github.com/Krysek/Coursera-Data
 
 ## My Leaflet Map
 Create a leaflet map object.
+
 ```{r cars}
 library(leaflet)
 map <- leaflet() %>% addTiles()
-```
-
-Create a marker with a picture of SIU Carbondale and a link to its homepage.
-```{r}
-SIU_Icon <- makeIcon(
-   iconUrl = "https://siuf.org/_common/images/giving-priorities1/campus-lake.jpg",
-   iconWidth = 30*408/255, iconHeight = 30,
-   iconAnchorX = 30*408/255/2, iconAnchorY = 30/2
-)
+# Today date
+format(Sys.Date(),"%m-%d-%Y")
 ```
 
 Add the marker to the map and display the map.
