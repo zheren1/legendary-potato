@@ -1,0 +1,37 @@
+---
+title: "Project 2"
+author: "Zhe Ren"
+date: '2022-05-22'
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+The source code is available at [GitHub](https://github.com/Krysek/Coursera-Data-Science-Specialization-Developing-Data-Products-Week-2-Assignment). [Just click here!](https://github.com/Krysek/Coursera-Data-Science-Specialization-Developing-Data-Products-Week-2-Assignment)
+
+## My Leaflet Map
+Create a leaflet map object.
+```{r cars}
+library(leaflet)
+map <- leaflet() %>% addTiles()
+```
+
+Create a marker with a picture of SIU Carbondale and a link to its homepage.
+```{r}
+SIU_Icon <- makeIcon(
+   iconUrl = "https://siuf.org/_common/images/giving-priorities1/campus-lake.jpg",
+   iconWidth = 30*408/255, iconHeight = 30,
+   iconAnchorX = 30*408/255/2, iconAnchorY = 30/2
+)
+```
+
+Add the marker to the map and display the map.
+```{r}
+library(leaflet)
+map %>%
+   addTiles() %>%
+   addMarkers(lat=37.716027, lng=-89.218023, popup = "SIU_Popup")
+```
+
